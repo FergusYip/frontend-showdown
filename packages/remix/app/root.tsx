@@ -3,7 +3,6 @@ import type { LinksFunction } from "remix";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from "remix";
 import globalStylesUrl from "~/styles/global.css";
 import Header from "./components/Header";
-import NewPostSection from "./components/NewPostSection";
 
 /**
  * The `links` export is a function that returns an array of objects that map to

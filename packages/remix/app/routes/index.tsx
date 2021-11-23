@@ -1,19 +1,27 @@
-import { ActionFunction, LoaderFunction, MetaFunction, useActionData } from "remix";
+import { ActionFunction, Form, LoaderFunction, MetaFunction, useActionData } from "remix";
 import { useLoaderData } from "remix";
 import NewPostSection from "../components/NewPostSection";
 import PostCard from "../components/PostCard";
 import { db } from "~/utils/db.server";
-import type { Post } from "@prisma/client";
+import type { Post, User } from "@prisma/client";
+import { authenticator } from "~/auth.server";
 
-type LoaderData = { posts: Array<Post> };
+type LoaderData = { posts: Array<Post & { User: User }>; user?: User };
 
-export let loader: LoaderFunction = async () => {
-  return {
+export let loader: LoaderFunction = async ({ request }) => {
+  const user = await authenticator.isAuthenticated(request, {});
+
+  const data: LoaderData = {
     posts: await db.post.findMany({
       orderBy: { createdAt: "desc" },
       take: 10,
+      include: {
+        User: true,
+      },
     }),
+    user: user ?? undefined,
   };
+  return data;
 };
 
 type ActionData = {
@@ -27,6 +35,12 @@ type ActionData = {
 };
 
 export let action: ActionFunction = async ({ request }): Promise<Response | ActionData> => {
+  const user = await authenticator.isAuthenticated(request, {});
+
+  if (!user) {
+    throw new Error("Not authenticated");
+  }
+
   let form = await request.formData();
   let content = form.get("content");
   // we do this type check to be extra sure and to make TypeScript happy
@@ -46,6 +60,7 @@ export let action: ActionFunction = async ({ request }): Promise<Response | Acti
   await db.post.create({
     data: {
       content: content.trim(),
+      userId: user.id,
     },
   });
   return {};
@@ -62,14 +77,14 @@ export let meta: MetaFunction = () => {
 // https://remix.run/guides/routing#index-routes
 export default function Index() {
   const actionData = useActionData<ActionData | undefined>();
-  let data = useLoaderData<LoaderData>();
+  const { user, posts } = useLoaderData<LoaderData>();
 
   return (
     <div>
       <main>
-        <NewPostSection submissionError={actionData?.fieldErrors?.content} />
+        {user && <NewPostSection submissionError={actionData?.fieldErrors?.content} />}
         <div className="space-y-4">
-          {data.posts.map((post) => (
+          {posts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>
