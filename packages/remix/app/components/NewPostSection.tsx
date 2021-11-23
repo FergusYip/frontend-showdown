@@ -1,11 +1,9 @@
 import { useState } from "react";
 import NewPostForm from "./NewPostForm";
 
-interface Props {
-  submissionError?: string;
-}
+interface Props {}
 
-const NewPostSection = ({ submissionError }: Props) => {
+const NewPostSection = (props: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!isExpanded) {
@@ -22,11 +20,7 @@ const NewPostSection = ({ submissionError }: Props) => {
   }
   return (
     <div className="my-4">
-      <NewPostForm
-        onCancel={() => setIsExpanded(false)}
-        onSubmit={() => setIsExpanded(false)}
-        error={submissionError}
-      />
+      <NewPostForm onCancel={() => setIsExpanded(false)} onSubmit={() => setIsExpanded(false)} />
     </div>
   );
 };

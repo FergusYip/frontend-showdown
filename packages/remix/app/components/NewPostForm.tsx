@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { Form, useTransition } from "remix";
+import { Form, useActionData, useTransition } from "remix";
+import { NewPostResponse } from "../routes/posts/new";
 
 interface Props {
   onCancel: () => void;
   onSubmit: () => void;
-  error?: string;
 }
 
-const NewPostForm = ({ onSubmit, onCancel, error }: Props) => {
+const NewPostForm = ({ onSubmit, onCancel }: Props) => {
   const transition = useTransition();
+  const actionData = useActionData<NewPostResponse | undefined>();
 
   useEffect(() => {
     if (transition.state === "loading") {
@@ -16,9 +17,11 @@ const NewPostForm = ({ onSubmit, onCancel, error }: Props) => {
     }
   }, [transition.state]);
 
+  const error = actionData?.fieldErrors?.content;
+
   return (
     <div className="w-full rounded-md border p-4 shadow-md">
-      <Form method="post">
+      <Form action="/posts/new" method="post">
         <label>
           <h2 className="text-lg font-semibold mb-4">New Post</h2>
           <textarea
