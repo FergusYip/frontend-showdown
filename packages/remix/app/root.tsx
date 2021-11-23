@@ -66,8 +66,6 @@ type LoaderData = { user?: User };
 
 export let loader: LoaderFunction = async ({ request }) => {
   const user = await authenticator.isAuthenticated(request, {});
-
-  console.log("hi");
   const data: LoaderData = {
     user: user ?? undefined,
   };
