@@ -15,12 +15,11 @@ export type NewPostResponse = {
 };
 
 export let action: ActionFunction = async ({ request }): Promise<Response | NewPostResponse> => {
-  const user = await authenticator.authenticate("github", request);
+  const user = await authenticator.isAuthenticated(request);
 
-  console.log(user);
-  // if (!user) {
-  //   throw new Error("Not authenticated");
-  // }
+  if (!user) {
+    throw new Error("Not authenticated");
+  }
 
   let form = await request.formData();
   let content = form.get("content");
