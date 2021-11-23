@@ -1,8 +1,12 @@
+import { useState } from "react";
+
 interface Props {
   onCancel: () => void;
 }
 
 const NewPostForm = ({ onCancel }: Props) => {
+  const [content, setContent] = useState("");
+
   return (
     <div className="w-full rounded-md border p-4 shadow-md">
       <h2 className="text-lg font-semibold mb-4">New Post</h2>
@@ -11,6 +15,8 @@ const NewPostForm = ({ onCancel }: Props) => {
         name=""
         id=""
         rows={4}
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
       ></textarea>
 
       <div className="flex justify-end mt-2 space-x-2">
