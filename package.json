@@ -1,0 +1,12 @@
+{
+  "name": "frontend-showdown",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "remix": "yarn workspace @frontend-showdown/remix"
+  }
+}
