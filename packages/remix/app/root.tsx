@@ -1,7 +1,18 @@
+import { User } from "@prisma/client";
 import React from "react";
-import type { LinksFunction } from "remix";
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from "remix";
+import type { LinksFunction, LoaderFunction } from "remix";
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useCatch,
+  useLoaderData,
+} from "remix";
 import globalStylesUrl from "~/styles/global.css";
+import { authenticator } from "./auth.server";
 import Header from "./components/Header";
 
 /**
@@ -51,11 +62,25 @@ function Document({ children, title }: { children: React.ReactNode; title?: stri
   );
 }
 
+type LoaderData = { user?: User };
+
+export let loader: LoaderFunction = async ({ request }) => {
+  const user = await authenticator.isAuthenticated(request, {});
+
+  console.log("hi");
+  const data: LoaderData = {
+    user: user ?? undefined,
+  };
+  return data;
+};
+
 function Layout({ children }: React.PropsWithChildren<{}>) {
+  const { user } = useLoaderData<LoaderData>();
+
   return (
     <div className="flex justify-center">
       <div className="p-8 w-full max-w-screen-md">
-        <Header title="Remix" />
+        <Header title="Remix" user={user} />
         {children}
       </div>
     </div>
