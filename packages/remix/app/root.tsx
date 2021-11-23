@@ -55,7 +55,7 @@ function Document({ children, title }: { children: React.ReactNode; title?: stri
 function Layout({ children }: React.PropsWithChildren<{}>) {
   return (
     <div className="flex justify-center">
-      <div className="p-8 max-w-screen-md">
+      <div className="p-8 w-full max-w-screen-md">
         <Header title="Remix" />
         {children}
       </div>
