@@ -1,6 +1,6 @@
-import type { MetaFunction, LoaderFunction } from "remix";
-import { useLoaderData, json, Link } from "remix";
-import NewPostForm from "../components/NewPostForm";
+import type { LoaderFunction, MetaFunction } from "remix";
+import { json, useLoaderData } from "remix";
+import NewPostSection from "../components/NewPostSection";
 import PostCard from "../components/PostCard";
 
 type IndexData = {
@@ -63,7 +63,7 @@ export default function Index() {
   return (
     <div>
       <main>
-        <NewPostForm />
+        <NewPostSection />
         <PostCard />
       </main>
     </div>

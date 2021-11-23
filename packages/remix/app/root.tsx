@@ -2,6 +2,8 @@ import React from "react";
 import type { LinksFunction } from "remix";
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from "remix";
 import globalStylesUrl from "~/styles/global.css";
+import Header from "./components/Header";
+import NewPostSection from "./components/NewPostSection";
 
 /**
  * The `links` export is a function that returns an array of objects that map to
@@ -53,7 +55,10 @@ function Document({ children, title }: { children: React.ReactNode; title?: stri
 function Layout({ children }: React.PropsWithChildren<{}>) {
   return (
     <div className="flex justify-center">
-      <div className="p-8 max-w-screen-md">{children}</div>
+      <div className="p-8 max-w-screen-md">
+        <Header title="Remix" />
+        {children}
+      </div>
     </div>
   );
 }
