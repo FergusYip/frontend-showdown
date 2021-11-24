@@ -120,12 +120,30 @@
   dependencies:
     "@remix-run/node" "1.0.3"
 
+"@remix-run/netlify@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@remix-run/netlify/-/netlify-1.0.4.tgz#9de181669934348890ce7a5e398413b26ce337c4"
+  integrity sha512-O1fuu5R1eqt8IEshIFVHrUQz5YOih4wCWEbjiICsC0q+eBufsg97GIkR64xcDoacNfXFvtwXD6sxhrhwc0IQ/A==
+  dependencies:
+    "@remix-run/node" "1.0.4"
+
 "@remix-run/node@1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@remix-run/node/-/node-1.0.3.tgz#f2be0a0cee518f9ded39572a6e531ecda15a8a01"
   integrity sha512-p/466Dlw5KOaHMjwEIG7K1gLJKWfL3AlqFT4a84gR3606D2C+T2s/YJtP3xRq2iBLAzDbzSx/x4gctpM6tI3Jw==
   dependencies:
     "@remix-run/server-runtime" "1.0.3"
+    "@types/node-fetch" "^2.5.12"
+    cookie-signature "^1.1.0"
+    node-fetch "^2.6.1"
+    source-map "^0.7.3"
+
+"@remix-run/node@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@remix-run/node/-/node-1.0.4.tgz#96d77d4a8bafd0e2dac9cb88b96fd9872720f7cd"
+  integrity sha512-19fo8XQO1XqhCeHXP5Pp2n2b3XR2WqmfJqsAvlik/iAiQhH0ztOZwWFkB0KpX5wUMAXR1fdoZG+VXxeA2pYKxQ==
+  dependencies:
+    "@remix-run/server-runtime" "1.0.4"
     "@types/node-fetch" "^2.5.12"
     cookie-signature "^1.1.0"
     node-fetch "^2.6.1"
@@ -152,6 +170,18 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@remix-run/server-runtime/-/server-runtime-1.0.3.tgz#803cae97dc2c01a71533c26362b69db9dba766e5"
   integrity sha512-Y7gOa49pokkdKJgSsIGUp3/3oVsLulSMMtztJbZATZ+BqF88HQ7HbqSkAvHJ71Tba18J66Ye/QZ7KTpTNuVrFA==
+  dependencies:
+    "@types/cookie" "^0.4.0"
+    cookie "^0.4.1"
+    jsesc "^3.0.1"
+    react-router-dom "^6.0.2"
+    set-cookie-parser "^2.4.8"
+    source-map "^0.7.3"
+
+"@remix-run/server-runtime@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@remix-run/server-runtime/-/server-runtime-1.0.4.tgz#a5865ee1167d6fa9e2177d5f6685efa30d25e002"
+  integrity sha512-dZL3qIuvd8ngT0L1ShNJY2Fz/J3iRYcMOl9FdskBGYVVwTMlHMTDqqilBJGlmuxd2/nUkPxLfpos0ZkQGr1tXg==
   dependencies:
     "@types/cookie" "^0.4.0"
     cookie "^0.4.1"
