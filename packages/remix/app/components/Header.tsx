@@ -41,15 +41,17 @@ const Header = ({ title, user }: Props) => {
                 <div className="py-1">
                   <Menu.Item>
                     {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                          "block px-4 py-2 text-sm"
-                        )}
-                      >
-                        Settings
-                      </a>
+                      <Form action="/settings" method="get">
+                        <button
+                          type="submit"
+                          className={classNames(
+                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                            "block w-full px-4 py-2 text-sm"
+                          )}
+                        >
+                          Settings
+                        </button>
+                      </Form>
                     )}
                   </Menu.Item>
                   <Menu.Item>
