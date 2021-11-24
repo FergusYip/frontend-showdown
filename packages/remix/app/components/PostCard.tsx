@@ -12,6 +12,7 @@ const PostCard = ({ post }: Props) => {
     <div className="w-full rounded-md border p-4 shadow-md">
       <PostHeader
         postedAt={post.createdAt}
+        updatedAt={post.updatedAt}
         username={post.User.username}
         avatar={post.User.avatar}
       />
