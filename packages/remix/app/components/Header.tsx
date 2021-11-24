@@ -37,8 +37,23 @@ const Header = ({ title, user }: Props) => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="origin-top-right absolute right-0 mt-2 w-24 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none text-right">
+              <Menu.Items className="origin-top-right absolute right-0 mt-2 w-24 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none text-center">
                 <div className="py-1">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <Form action={`/user/${user.username}`} method="get">
+                        <button
+                          type="submit"
+                          className={classNames(
+                            active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                            "block w-full px-4 py-2 text-sm"
+                          )}
+                        >
+                          Profile
+                        </button>
+                      </Form>
+                    )}
+                  </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
                       <Form action="/settings" method="get">
