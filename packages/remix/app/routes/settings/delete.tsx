@@ -22,7 +22,7 @@ export let action: ActionFunction = async ({ request }): Promise<Response> => {
 
   const session = await getSession(request.headers.get("Cookie"));
 
-  return redirect("/", {
+  return redirect("/home", {
     headers: { "Set-Cookie": await destroySession(session) },
   });
 };
