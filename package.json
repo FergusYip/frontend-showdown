@@ -8,10 +8,14 @@
     "build": "yarn build-css && remix build",
     "dev": "concurrently \"yarn:remix-dev\" \"yarn:watch-css\"",
     "postinstall": "remix setup node",
-    "start": "remix setup node && remix-serve build",
+    "start": "remix setup node && prisma migrate deploy && remix-serve build",
     "remix-dev": "dotenv remix dev",
     "watch-css": "postcss styles --base styles --dir app/styles -w",
-    "build-css": "postcss styles --base styles --dir app/styles --env production"
+    "build-css": "postcss styles --base styles --dir app/styles --env production",
+    "migrate:reset": "prisma migrate reset",
+    "migrate:create": "prisma migrate dev --create-only",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.2",
