@@ -1,7 +1,7 @@
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/server-runtime";
+import { ActionFunction, LoaderFunction, redirect } from "remix";
 import { authenticator } from "~/auth.server";
 import { db } from "~/utils/db.server";
-import { getSession, destroySession } from "../../session.server";
+import { getSession, destroySession } from "~/session.server";
 
 export let loader: LoaderFunction = async () => redirect("/settings");
 

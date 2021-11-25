@@ -1,6 +1,6 @@
 import { ActionFunction, LoaderFunction, redirect } from "remix";
 import { authenticator } from "~/auth.server";
-import { db } from "../utils/db.server";
+import { db } from "~/utils/db.server";
 import { NewPostResponse } from "./home/post";
 
 export let loader: LoaderFunction = () => redirect("/");

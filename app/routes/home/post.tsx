@@ -10,7 +10,7 @@ import {
   useTransition,
 } from "remix";
 import { authenticator } from "~/auth.server";
-import { db } from "../../utils/db.server";
+import { db } from "~/utils/db.server";
 
 type LoaderData = { user?: User };
 

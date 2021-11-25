@@ -1,7 +1,7 @@
 import { Post, User } from "@prisma/client";
 import { LoaderFunction, MetaFunction, redirect, useLoaderData } from "remix";
 import PostCard from "../../components/PostCard";
-import { db } from "../../utils/db.server";
+import { db } from "~/utils/db.server";
 
 type LoaderData = { profile: User & { posts: (Post & { User: User })[] } };
 

@@ -12,7 +12,7 @@ import {
   useLoaderData,
 } from "remix";
 import globalStylesUrl from "~/styles/global.css";
-import { authenticator } from "./auth.server";
+import { authenticator } from "~/auth.server";
 import Header from "./components/Header";
 
 /**

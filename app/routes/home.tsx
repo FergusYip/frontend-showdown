@@ -1,7 +1,7 @@
 import type { Post, User } from "@prisma/client";
 import { LoaderFunction, MetaFunction, Outlet, useLoaderData } from "remix";
 import { db } from "~/utils/db.server";
-import { authenticator } from "../auth.server";
+import { authenticator } from "~/auth.server";
 import PostCard from "../components/PostCard";
 
 type LoaderData = { posts: Array<Post & { User: User }>; user?: User };
