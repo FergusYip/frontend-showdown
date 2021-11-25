@@ -14,6 +14,7 @@ import {
 import globalStylesUrl from "~/styles/global.css";
 import { authenticator } from "~/auth.server";
 import Header from "./components/Header";
+import PageMargins from "./layouts/PageMargins";
 
 /**
  * The `links` export is a function that returns an array of objects that map to
@@ -76,12 +77,10 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
   const { user } = useLoaderData<LoaderData>();
 
   return (
-    <div className="flex justify-center">
-      <div className="p-8 w-full max-w-screen-md">
-        <Header title="Remix" user={user} />
-        {children}
-      </div>
-    </div>
+    <PageMargins>
+      <Header title="Remix" user={user} />
+      {children}
+    </PageMargins>
   );
 }
 
@@ -103,12 +102,12 @@ export function CatchBoundary() {
 
   return (
     <Document title={`${caught.status} ${caught.statusText}`}>
-      <Layout>
+      <ErrorLayout>
         <h1>
           {caught.status}: {caught.statusText}
         </h1>
         {message}
-      </Layout>
+      </ErrorLayout>
     </Document>
   );
 }
@@ -117,14 +116,22 @@ export function ErrorBoundary({ error }: { error: Error }) {
   console.error(error);
   return (
     <Document title="Error!">
-      <Layout>
+      <ErrorLayout>
         <div>
           <h1>There was an error</h1>
           <p>{error.message}</p>
           <hr />
           <p>Hey, developer, you should replace this with what you want your users to see.</p>
         </div>
-      </Layout>
+      </ErrorLayout>
     </Document>
   );
 }
+const ErrorLayout = ({ children }: React.PropsWithChildren<{}>) => {
+  return (
+    <PageMargins>
+      <Header title="Remix" showLogin={false} />
+      {children}
+    </PageMargins>
+  );
+};
