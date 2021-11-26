@@ -40,14 +40,15 @@ export let loader: LoaderFunction = async ({ params, request }) => {
 };
 
 // https://remix.run/api/conventions#meta
-export let meta: MetaFunction = () => {
+export let meta: MetaFunction = ({ data }) => {
+  const { profile } = data as LoaderData
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!",
+    title: `${profile.username} @ Ritter`,
+    description: `Ritter profile of ${profile.username}`,
   };
 };
 
-interface Props {}
+interface Props { }
 
 const User = (props: Props) => {
   const { profile } = useLoaderData<LoaderData>();

@@ -78,7 +78,7 @@ function Layout({ children }: React.PropsWithChildren<{}>) {
 
   return (
     <PageMargins>
-      <Header title="Remix" user={user} />
+      <Header title="Ritter" user={user} />
       {children}
     </PageMargins>
   );
@@ -130,7 +130,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 const ErrorLayout = ({ children }: React.PropsWithChildren<{}>) => {
   return (
     <PageMargins>
-      <Header title="Remix" showLogin={false} />
+      <Header title="Ritter" showLogin={false} />
       {children}
     </PageMargins>
   );

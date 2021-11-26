@@ -1,7 +1,16 @@
-import React from "react";
-import { Form } from "remix";
+import { Form, MetaFunction } from "remix";
 
-interface Props {}
+interface Props { }
+
+
+// https://remix.run/api/conventions#meta
+export let meta: MetaFunction = () => {
+  return {
+    title: "Settings | Ritter",
+    description: "A Twitter-like web application built with Remix",
+  };
+};
+
 
 const settings = (props: Props) => {
   return (

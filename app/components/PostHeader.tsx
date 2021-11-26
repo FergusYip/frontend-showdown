@@ -18,7 +18,7 @@ const PostHeader = ({ postedAt, updatedAt, username, avatar, isEditable, onEdit 
   const editedText = isEdited ? " (edited)" : "";
 
   return (
-    <div className="flex mb-2">
+    <div className="flex mb-4">
       <div className="rounded-full h-8 w-8 bg-gray-500 flex items-center justify-center overflow-hidden">
         <img src={avatar} alt={`Profile picture of ${username}`} />
       </div>

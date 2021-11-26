@@ -59,7 +59,7 @@ const PostCard = ({ post, user }: Props) => {
               className="text-base py-2 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-indigo-200 disabled:opacity-75"
               type="submit"
               form="form-edit"
-              // disabled={Boolean(transition.submission)}
+            // disabled={Boolean(transition.submission)}
             >
               {/* {transition.submission ? "Posting..." : "Post"} */}
               Edit
@@ -67,7 +67,7 @@ const PostCard = ({ post, user }: Props) => {
           </div>
         </>
       ) : (
-        <div>{transition.submission?.formData.get("content") || post.content}</div>
+        <div className="whitespace-pre-line">{transition.submission?.formData.get("content") || post.content}</div>
       )}
     </div>
   );

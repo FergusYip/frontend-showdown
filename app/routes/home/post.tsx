@@ -15,7 +15,9 @@ import { db } from "~/utils/db.server";
 type LoaderData = { user?: User };
 
 export let loader: LoaderFunction = async ({ request }) => {
-  const user = await authenticator.isAuthenticated(request, {});
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/home"
+  });
 
   const data: LoaderData = {
     user: user ?? undefined,
@@ -65,13 +67,13 @@ export let action: ActionFunction = async ({ request }): Promise<Response | NewP
   return redirect("/home");
 };
 
-// https://remix.run/api/conventions#meta
 export let meta: MetaFunction = () => {
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!",
+    title: "New Post | Ritter",
+    description: "A Twitter-like web application built with Remix",
   };
 };
+
 
 // https://remix.run/guides/routing#index-routes
 export default function Index() {
@@ -93,9 +95,8 @@ export default function Index() {
             <h2 className="text-lg font-semibold mb-4">New Post</h2>
             <textarea
               id="content"
-              className={`border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none focus:ring-2 focus:border-transparent ${
-                error ? "ring-2 ring-red-500" : "focus:ring-indigo-500 "
-              }`}
+              className={`border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none focus:ring-2 focus:border-transparent ${error ? "ring-2 ring-red-500" : "focus:ring-indigo-500 "
+                }`}
               name="content"
               rows={4}
             />

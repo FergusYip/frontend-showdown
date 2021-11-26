@@ -16,8 +16,8 @@ export let loader: LoaderFunction = async ({ request }) => {
 // https://remix.run/api/conventions#meta
 export let meta: MetaFunction = () => {
   return {
-    title: "Remix Starter",
-    description: "Welcome to remix!",
+    title: "Ritter",
+    description: "A Twitter-like web application built with Remix",
   };
 };
 
