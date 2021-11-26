@@ -6,7 +6,7 @@ interface Props {}
 const settings = (props: Props) => {
   return (
     <main>
-      <h1 className="text-2xl font-bold mb-4 border-b pb-2">Settings</h1>
+      <h1 className="text-2xl mb-4 border-b pb-4">Settings</h1>
       <section>
         <div className="flex justify-between items-center">
           <div>
