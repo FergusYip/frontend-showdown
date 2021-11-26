@@ -14,7 +14,7 @@ interface Props {
 }
 
 const PostHeader = ({ postedAt, updatedAt, username, avatar, isEditable, onEdit }: Props) => {
-  const isEdited = postedAt !== updatedAt;
+  const isEdited = Math.abs(Number(postedAt) - Number(updatedAt)) / 1000 > 5;
   const editedText = isEdited ? " (edited)" : "";
 
   return (
