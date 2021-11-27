@@ -72,7 +72,10 @@ const User = () => {
 
   const fetchMorePosts = () => {
     if (posts.length) {
-      fetch(`/posts?user=${profile.username}&after=${posts[posts.length - 1].id}`)
+      const lastPost = posts[posts.length - 1];
+      fetch(
+        `/posts?user=${profile.username}&afterPost=${lastPost.id}&afterTime=${lastPost.createdAt}`
+      )
         .then((res) => res.json())
         .then((newPosts: Post[]) => {
           setPosts((prev) => [...prev, ...newPosts.map((p: Post) => ({ ...p, User: profile }))]);

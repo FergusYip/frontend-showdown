@@ -6,7 +6,8 @@ export type UserPostsResponse = Post[];
 
 export let loader: LoaderFunction = async ({ request }): Promise<Response | UserPostsResponse> => {
   const url = new URL(request.url);
-  const afterId = Number(url.searchParams.get("after"));
+  const afterId = Number(url.searchParams.get("afterPost"));
+  const afterTime = url.searchParams.get("afterTime");
   const username = url.searchParams.get("user");
 
   if (!afterId) return [];
@@ -16,9 +17,14 @@ export let loader: LoaderFunction = async ({ request }): Promise<Response | User
       User: {
         username: username ?? undefined,
       },
+      createdAt: afterTime
+        ? {
+            lt: afterTime,
+          }
+        : undefined,
     },
     cursor: {
-      id: afterId + 1,
+      id: afterId - 1,
     },
     take: 10,
     orderBy: {
