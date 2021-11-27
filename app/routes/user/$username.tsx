@@ -1,8 +1,9 @@
 import { Post, User } from "@prisma/client";
+import { useState } from "react";
 import { LoaderFunction, MetaFunction, redirect, useLoaderData } from "remix";
-import PostCard from "../../components/PostCard";
 import { db } from "~/utils/db.server";
 import { authenticator } from "../../auth.server";
+import PostCard from "~/components/PostCard";
 
 type LoaderData = {
   profile: User & {
@@ -35,6 +36,9 @@ export let loader: LoaderFunction = async ({ params, request }) => {
           User: true,
         },
         take: 10,
+        orderBy: {
+          createdAt: "desc",
+        },
       },
     },
   });
@@ -63,15 +67,40 @@ export let meta: MetaFunction = ({ data }) => {
 
 const User = () => {
   const { profile, user } = useLoaderData<LoaderData>();
+  const [posts, setPosts] = useState(profile.posts);
+  const [canLoadMore, setCanLoadMore] = useState(true);
+
+  const fetchMorePosts = () => {
+    if (posts.length) {
+      fetch(`/posts?user=${profile.username}&after=${posts[posts.length - 1].id}`)
+        .then((res) => res.json())
+        .then((newPosts: Post[]) => {
+          setPosts((prev) => [...prev, ...newPosts.map((p: Post) => ({ ...p, User: profile }))]);
+          if (newPosts.length < 10) {
+            setCanLoadMore(false);
+          }
+        });
+    }
+  };
 
   return (
     <main>
       <h1 className="text-2xl mb-4 border-b pb-4">{profile.username}</h1>
       <div className="space-y-4">
-        {profile.posts.map((post) => (
+        {posts.map((post) => (
           <PostCard key={post.id} post={post} user={user} />
         ))}
       </div>
+      {posts && canLoadMore && (
+        <div className="flex justify-center mt-6">
+          <button
+            className="text-sm px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-indigo-200"
+            onClick={fetchMorePosts}
+          >
+            Load More
+          </button>
+        </div>
+      )}
     </main>
   );
 };
