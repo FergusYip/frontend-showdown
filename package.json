@@ -7,7 +7,7 @@
   "scripts": {
     "build": "yarn build-css && remix build",
     "dev": "concurrently \"yarn:remix-dev\" \"yarn:watch-css\"",
-    "postinstall": "remix setup node && prisma generate",
+    "postinstall": "remix setup node",
     "start": "remix-serve build",
     "remix-dev": "dotenv remix dev",
     "watch-css": "postcss styles --base styles --dir app/styles -w",
