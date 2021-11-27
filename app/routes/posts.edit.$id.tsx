@@ -15,7 +15,7 @@ export let action: ActionFunction = async ({
     throw new Error("Not authenticated");
   }
 
-  const postId = params.id;
+  const postId = Number(params.id);
   if (!postId) {
     throw new Error("No post ID");
   }
