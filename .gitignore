@@ -9,3 +9,5 @@ app/styles
 /prisma/dev.db
 
 .env
+
+.vscode
