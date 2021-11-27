@@ -10,10 +10,11 @@ async function seed() {
   await Promise.all(
     [...Array(USERS_TO_CREATE)].map(async () => {
       const createdAt = faker.date.past();
+      const username = faker.internet.userName();
       const user = await db.user.create({
         data: {
-          username: faker.internet.userName(),
-          avatar: faker.internet.avatar(),
+          username,
+          avatar: `https://avatars.dicebear.com/api/identicon/${username}.svg`,
           email: faker.internet.email(),
           createdAt,
           updatedAt: createdAt,
