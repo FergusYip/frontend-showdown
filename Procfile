@@ -1,2 +1,3 @@
-release: npm migrate:deploy
+release: npm run migrate:deploy
 web: npm start
+
