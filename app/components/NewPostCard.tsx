@@ -1,6 +1,6 @@
 import { useFetcher } from "remix";
 import { NewPostResponse } from "../routes/posts.new";
-import { noop } from "../utils/helpers";
+import { classNames, noop } from "../utils/helpers";
 
 interface Props {
   onCancel?: () => void;
@@ -20,9 +20,10 @@ const NewPostCard = ({ onCancel = noop }: Props) => {
             <h2 className="text-lg font-semibold mb-4">New Post</h2>
             <textarea
               id="content"
-              className={`border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none focus:ring-2 focus:border-transparent ${
+              className={classNames(
+                "border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none focus:ring-2 focus:border-transparent",
                 error ? "ring-2 ring-red-500" : "focus:ring-indigo-500 "
-              }`}
+              )}
               name="content"
               rows={4}
             />

@@ -1,6 +1,8 @@
 import { Post, User } from "@prisma/client";
 import { useState } from "react";
-import { Form, useTransition } from "remix";
+import { Form, useFetcher } from "remix";
+import { EditPostResponse } from "../routes/posts.edit.$id";
+import { classNames } from "../utils/helpers";
 import PostHeader from "./PostHeader";
 import TrashIcon from "./TrashIcon";
 
@@ -13,7 +15,9 @@ interface Props {
 
 const PostCard = ({ post, user }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
-  let transition = useTransition();
+
+  const editFetcher = useFetcher<EditPostResponse>();
+  const contentError = editFetcher.data?.fieldErrors?.content;
 
   return (
     <div className="w-full rounded-md border p-4 shadow-md">
@@ -25,24 +29,27 @@ const PostCard = ({ post, user }: Props) => {
         isEditable={!isEditing && post.userId === user?.id}
         onEdit={() => setIsEditing(true)}
       />
-      {isEditing && !transition.submission ? (
+      {isEditing ? (
         <>
-          <Form
+          <editFetcher.Form
             id="form-edit"
             method="post"
             action={`/posts/edit/${post.id}`}
-            onSubmit={() => setIsEditing(false)}
+            // onSubmit={() => setIsEditing(false)}
           >
             <textarea
               id="content"
-              className={`border border-gray-400 rounded-lg w-full p-2 focus:outline-none focus:ring-2 focus:border-transparent focus:ring-indigo-500 mt-2 `}
+              className={classNames(
+                "border border-gray-400 rounded-lg w-full p-2 font-light focus:outline-none focus:ring-2 focus:border-transparent",
+                contentError ? "ring-2 ring-red-500" : "focus:ring-indigo-500 "
+              )}
               name="content"
               rows={4}
               defaultValue={post.content}
             />
-          </Form>
+          </editFetcher.Form>
 
-          {/* {error && <div className="text-red-500 px-1">{error}</div>} */}
+          {contentError && <div className="text-red-500 px-1">{contentError}</div>}
           <div className="flex justify-end mt-2 space-x-2">
             <Form action={`/posts/delete/${post.id}`} method="post" className="contents">
               <button className="text-gray-400 hover:text-gray-700 text-base px-2  rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-100">
@@ -59,15 +66,16 @@ const PostCard = ({ post, user }: Props) => {
               className="text-base py-2 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-indigo-200 disabled:opacity-75"
               type="submit"
               form="form-edit"
-            // disabled={Boolean(transition.submission)}
+              disabled={editFetcher.state === "submitting"}
             >
-              {/* {transition.submission ? "Posting..." : "Post"} */}
-              Edit
+              {editFetcher.state === "submitting" ? "Editing..." : "Edit"}
             </button>
           </div>
         </>
       ) : (
-        <div className="whitespace-pre-line">{transition.submission?.formData.get("content") || post.content}</div>
+        <div className="whitespace-pre-line">
+          {editFetcher.submission?.formData.get("content") || post.content}
+        </div>
       )}
     </div>
   );
