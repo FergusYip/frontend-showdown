@@ -4,6 +4,7 @@ import { Form } from "remix";
 import { classNames } from "../utils/helpers";
 import GitHubLogo from "./GitHubLogo";
 import { Menu, Transition } from "@headlessui/react";
+import { NavLink } from "react-router-dom";
 
 interface Props {
   title: string;
@@ -34,7 +35,7 @@ const Header = ({ title, user, showLogin = true }: Props) => {
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
-                <Form action={`/user/${user.username}`} method="get">
+                <NavLink to={`/user/${user.username}`}>
                   <button
                     type="submit"
                     className={classNames(
@@ -44,12 +45,12 @@ const Header = ({ title, user, showLogin = true }: Props) => {
                   >
                     Profile
                   </button>
-                </Form>
+                </NavLink>
               )}
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
-                <Form action="/settings" method="get">
+                <NavLink to="/settings">
                   <button
                     type="submit"
                     className={classNames(
@@ -59,7 +60,7 @@ const Header = ({ title, user, showLogin = true }: Props) => {
                   >
                     Settings
                   </button>
-                </Form>
+                </NavLink>
               )}
             </Menu.Item>
             <Menu.Item>
