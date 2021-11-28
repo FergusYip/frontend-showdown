@@ -38,7 +38,7 @@ export default function Index() {
   return (
     <div>
       <main>
-        <NewPostSection />
+        {user && <NewPostSection />}
         <div className="space-y-4">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} user={user} />
