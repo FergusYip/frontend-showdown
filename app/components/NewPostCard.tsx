@@ -1,21 +1,21 @@
-import { Form, useTransition } from "remix";
+import { useFetcher } from "remix";
+import { NewPostResponse } from "../routes/posts.new";
 import { noop } from "../utils/helpers";
 
 interface Props {
-  error?: string;
   onCancel?: () => void;
 }
 
-const NewPostCard = ({ error, onCancel = noop }: Props) => {
-  const transition = useTransition();
+const NewPostCard = ({ onCancel = noop }: Props) => {
+  const fetcher = useFetcher<NewPostResponse>();
 
-  const loading =
-    transition.state === "submitting" && transition.submission.action === "/posts/new";
+  const loading = fetcher.state === "submitting" && fetcher.submission.action === "/posts/new";
+  const error = fetcher.data?.fieldErrors?.content;
 
   return (
     <div className="my-4">
       <div className="w-full rounded-md border p-4 shadow-md">
-        <Form id="new-post" method="post" action="/posts/new">
+        <fetcher.Form id="new-post" method="post" action="/posts/new">
           <label>
             <h2 className="text-lg font-semibold mb-4">New Post</h2>
             <textarea
@@ -28,7 +28,7 @@ const NewPostCard = ({ error, onCancel = noop }: Props) => {
             />
             {error && <div className="text-red-500 px-1">{error}</div>}
           </label>
-        </Form>
+        </fetcher.Form>
         <div className="flex justify-end mt-2 space-x-2">
           <button
             className="text-base py-2 px-4 bg-gray-200 text-gray-700 font-semibold rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-200"
