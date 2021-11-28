@@ -1,14 +1,10 @@
 import { ActionFunction, LoaderFunction, redirect } from "remix";
 import { authenticator } from "~/auth.server";
 import { db } from "~/utils/db.server";
-import { NewPostResponse } from "./home/post";
 
 export let loader: LoaderFunction = () => redirect("/");
 
-export let action: ActionFunction = async ({
-  request,
-  params,
-}): Promise<Response | NewPostResponse> => {
+export let action: ActionFunction = async ({ request, params }): Promise<Response> => {
   const user = await authenticator.isAuthenticated(request);
 
   if (!user) {
@@ -30,5 +26,5 @@ export let action: ActionFunction = async ({
     throw new Error("Could not delete post");
   }
 
-  return redirect("/home");
+  return redirect("/");
 };

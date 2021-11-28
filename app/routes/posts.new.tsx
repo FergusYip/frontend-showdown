@@ -4,7 +4,7 @@ import { db } from "~/utils/db.server";
 
 export let loader: LoaderFunction = () => redirect("/");
 
-export type EditPostResponse = {
+export type NewPostResponse = {
   formError?: string;
   fieldErrors?: {
     content: string | undefined;
@@ -14,19 +14,11 @@ export type EditPostResponse = {
   };
 };
 
-export let action: ActionFunction = async ({
-  request,
-  params,
-}): Promise<Response | EditPostResponse> => {
+export let action: ActionFunction = async ({ request }): Promise<Response | NewPostResponse> => {
   const user = await authenticator.isAuthenticated(request);
 
   if (!user) {
     throw new Error("Not authenticated");
-  }
-
-  const postId = Number(params.id);
-  if (!postId) {
-    throw new Error("No post ID");
   }
 
   let form = await request.formData();
@@ -45,19 +37,11 @@ export let action: ActionFunction = async ({
     };
   }
 
-  try {
-    await db.post.update({
-      where: {
-        id: postId,
-      },
-      data: {
-        content: content.trim(),
-        userId: user.id,
-      },
-    });
-  } catch (error) {
-    throw new Error("Could not edit post");
-  }
-
+  await db.post.create({
+    data: {
+      content: content.trim(),
+      userId: user.id,
+    },
+  });
   return redirect("/");
 };
