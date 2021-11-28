@@ -4,7 +4,7 @@ import { Form } from "remix";
 import { classNames } from "../utils/helpers";
 import GitHubLogo from "./GitHubLogo";
 import { Menu, Transition } from "@headlessui/react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 interface Props {
   title: string;
@@ -94,9 +94,9 @@ const Header = ({ title, user, showLogin = true }: Props) => {
   return (
     <nav className="flex content-end justify-between items-center mb-6 text-xl">
       <div className="mr-auto">
-        <a href="/" className="hover:text-gray-400 text-3xl font-medium">
+        <Link to="/" className="hover:text-gray-400 text-3xl font-medium">
           {title}
-        </a>
+        </Link>
       </div>
       {showLogin && <div>{LoginButtonOrUser}</div>}
     </nav>
