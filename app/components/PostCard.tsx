@@ -1,10 +1,10 @@
 import { Post, User } from "@prisma/client";
 import { useEffect, useState } from "react";
-import { Form, useFetcher } from "remix";
+import { useFetcher } from "remix";
 import { EditPostResponse } from "../routes/posts/edit.$id";
 import { classNames } from "../utils/helpers";
+import DeletePostButton from "./DeletePostButton";
 import PostHeader from "./PostHeader";
-import TrashIcon from "./TrashIcon";
 
 interface Props {
   post: Post & {
@@ -53,11 +53,7 @@ const PostCard = ({ post, user }: Props) => {
 
           {contentError && <div className="text-red-500 px-1">{contentError}</div>}
           <div className="flex justify-end mt-2 space-x-2">
-            <Form action={`/posts/delete/${post.id}`} method="post" className="contents">
-              <button className="text-gray-400 hover:text-gray-700 text-base px-2  rounded-lg focus:outline-none focus:ring-1 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-red-100">
-                <TrashIcon />
-              </button>
-            </Form>
+            <DeletePostButton postId={post.id} />
             <button
               className="text-base py-2 px-4 bg-gray-200 text-gray-700 font-semibold rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-200"
               onClick={() => setIsEditing(false)}
