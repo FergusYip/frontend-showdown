@@ -1,7 +1,7 @@
 import { Post, User } from "@prisma/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, useFetcher } from "remix";
-import { EditPostResponse } from "../routes/posts.edit.$id";
+import { EditPostResponse } from "../routes/posts/edit.$id";
 import { classNames } from "../utils/helpers";
 import PostHeader from "./PostHeader";
 import TrashIcon from "./TrashIcon";
@@ -17,7 +17,14 @@ const PostCard = ({ post, user }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const editFetcher = useFetcher<EditPostResponse>();
-  const contentError = editFetcher.data?.fieldErrors?.content;
+  const { data } = editFetcher;
+
+  const contentError = !data?.ok && data?.fieldErrors?.content;
+  useEffect(() => {
+    if (editFetcher.type === "done" && editFetcher.data.ok) {
+      setIsEditing(false);
+    }
+  }, [editFetcher]);
 
   return (
     <div className="w-full rounded-md border p-4 shadow-md">
@@ -31,12 +38,7 @@ const PostCard = ({ post, user }: Props) => {
       />
       {isEditing ? (
         <>
-          <editFetcher.Form
-            id="form-edit"
-            method="post"
-            action={`/posts/edit/${post.id}`}
-            // onSubmit={() => setIsEditing(false)}
-          >
+          <editFetcher.Form id="form-edit" method="post" action={`/posts/edit/${post.id}`}>
             <textarea
               id="content"
               className={classNames(
@@ -68,7 +70,7 @@ const PostCard = ({ post, user }: Props) => {
               form="form-edit"
               disabled={editFetcher.state === "submitting"}
             >
-              {editFetcher.state === "submitting" ? "Editing..." : "Edit"}
+              {editFetcher.state === "idle" ? "Edit" : "Editing..."}
             </button>
           </div>
         </>
@@ -80,5 +82,4 @@ const PostCard = ({ post, user }: Props) => {
     </div>
   );
 };
-
 export default PostCard;

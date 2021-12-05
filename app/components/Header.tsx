@@ -1,10 +1,9 @@
 import type { User } from "@prisma/client";
 import { Fragment } from "react";
-import { Form } from "remix";
+import { Form, Link, NavLink } from "remix";
 import { classNames } from "../utils/helpers";
 import GitHubLogo from "./GitHubLogo";
 import { Menu, Transition } from "@headlessui/react";
-import { Link, NavLink } from "react-router-dom";
 
 interface Props {
   title: string;

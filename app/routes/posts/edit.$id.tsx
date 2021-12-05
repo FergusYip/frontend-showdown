@@ -1,10 +1,15 @@
+import { Post } from "@prisma/client";
 import { ActionFunction, LoaderFunction, redirect } from "remix";
 import { authenticator } from "~/auth.server";
 import { db } from "~/utils/db.server";
 
 export let loader: LoaderFunction = () => redirect("/");
 
-export type EditPostResponse = {
+type EditPostSuccess = {
+  post: Post;
+  ok: true;
+};
+type EditPostError = {
   formError?: string;
   fieldErrors?: {
     content: string | undefined;
@@ -12,7 +17,10 @@ export type EditPostResponse = {
   fields?: {
     content: string;
   };
+  ok: false;
 };
+
+export type EditPostResponse = EditPostSuccess | EditPostError;
 
 export let action: ActionFunction = async ({
   request,
@@ -34,30 +42,43 @@ export let action: ActionFunction = async ({
   // we do this type check to be extra sure and to make TypeScript happy
   // we'll explore validation next!
   if (typeof content !== "string") {
-    return { formError: `Form not submitted correctly.` };
+    return { ok: false, formError: `Form not submitted correctly.` };
   }
 
+  const trimmedContent = content.trim();
   const fields = { content };
-  if (!content.trim().length) {
+  if (!trimmedContent.length) {
     return {
+      ok: false,
       fields,
       fieldErrors: { content: "Post cannot be empty" },
     };
   }
 
+  const uneditedPost = await db.post.findUnique({ where: { id: postId } });
+  if (!uneditedPost) {
+    throw new Error("Invalid post");
+  }
+
+  if (uneditedPost.content === trimmedContent) {
+    return { ok: true, post: uneditedPost };
+  }
+
   try {
-    await db.post.update({
+    const post = await db.post.update({
       where: {
         id: postId,
       },
       data: {
-        content: content.trim(),
+        content: trimmedContent,
         userId: user.id,
       },
     });
+    return {
+      ok: true,
+      post,
+    };
   } catch (error) {
     throw new Error("Could not edit post");
   }
-
-  return redirect("/");
 };
