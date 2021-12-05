@@ -1,16 +1,24 @@
+import { useEffect } from "react";
 import { useFetcher } from "remix";
-import { NewPostResponse } from "../routes/posts.new";
+import { NewPostResponse } from "~/routes/posts/new";
 import { classNames, noop } from "../utils/helpers";
 
 interface Props {
   onCancel?: () => void;
+  onSuccess?: () => void;
 }
 
-const NewPostCard = ({ onCancel = noop }: Props) => {
+const NewPostCard = ({ onCancel = noop, onSuccess = noop }: Props) => {
   const fetcher = useFetcher<NewPostResponse>();
 
   const loading = fetcher.state === "submitting" && fetcher.submission.action === "/posts/new";
-  const error = fetcher.data?.fieldErrors?.content;
+  const error = !fetcher.data?.ok && fetcher.data?.fieldErrors?.content;
+
+  useEffect(() => {
+    if (fetcher.type === "done" && fetcher.data.ok) {
+      onSuccess();
+    }
+  }, [fetcher]);
 
   return (
     <div className="my-4">

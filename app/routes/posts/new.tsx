@@ -1,10 +1,15 @@
+import { Post } from "@prisma/client";
 import { ActionFunction, LoaderFunction, redirect } from "remix";
 import { authenticator } from "~/auth.server";
 import { db } from "~/utils/db.server";
 
 export let loader: LoaderFunction = () => redirect("/");
 
-export type NewPostResponse = {
+type NewPostSuccess = {
+  post: Post;
+  ok: true;
+};
+type NewPostError = {
   formError?: string;
   fieldErrors?: {
     content: string | undefined;
@@ -12,7 +17,10 @@ export type NewPostResponse = {
   fields?: {
     content: string;
   };
+  ok: false;
 };
+
+export type NewPostResponse = NewPostSuccess | NewPostError;
 
 export let action: ActionFunction = async ({ request }): Promise<Response | NewPostResponse> => {
   const user = await authenticator.isAuthenticated(request);
@@ -26,22 +34,23 @@ export let action: ActionFunction = async ({ request }): Promise<Response | NewP
   // we do this type check to be extra sure and to make TypeScript happy
   // we'll explore validation next!
   if (typeof content !== "string") {
-    return { formError: `Form not submitted correctly.` };
+    return { ok: false, formError: `Form not submitted correctly.` };
   }
 
   const fields = { content };
   if (!content.trim().length) {
     return {
+      ok: false,
       fields,
       fieldErrors: { content: "Post cannot be empty" },
     };
   }
 
-  await db.post.create({
+  const post = await db.post.create({
     data: {
       content: content.trim(),
       userId: user.id,
     },
   });
-  return redirect("/");
+  return { ok: true, post };
 };

@@ -1,9 +1,7 @@
 import { useState } from "react";
 import NewPostCard from "./NewPostCard";
 
-interface Props {}
-
-const NewPostSection = (props: Props) => {
+const NewPostSection = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!isExpanded) {
@@ -19,7 +17,8 @@ const NewPostSection = (props: Props) => {
     );
   }
 
-  return <NewPostCard onCancel={() => setIsExpanded(false)} />;
+  const shrink = () => setIsExpanded(false);
+  return <NewPostCard onCancel={shrink} onSuccess={shrink} />;
 };
 
 export default NewPostSection;
